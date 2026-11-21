@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Achadinhos @bele.tech26</title>
+<meta name="description" content="Links dos produtos da Shopee que aparecem no Instagram @bele.tech26.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fundo: #F8F6EF; --cartao: #FFFFFF; --tinta: #151515; --cinza: #6B6560; --linha: #E4DCD0;
+    --destaque: #D9623B; --destaque-escuro: #B84E2C; --ok: #2F7D4F;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --fundo: #141210; --cartao: #1E1B18; --tinta: #F3EFE8; --cinza: #A69E95; --linha: #34302B; --destaque: #E8774F; --destaque-escuro: #D9623B; --ok: #5DBB84; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fundo); color: var(--tinta); font-family: Montserrat, system-ui, sans-serif; }
+  .topo { max-width: 960px; margin: 0 auto; padding: 24px 16px 8px; }
+  .marca { display: flex; align-items: center; gap: 12px; }
+  .selo { width: 44px; height: 44px; border-radius: 10px; background: var(--destaque); color: #fff; display: grid; place-items: center; font-weight: 900; font-size: 20px; }
+  .marca b { display: block; font-weight: 900; letter-spacing: .02em; }
+  .marca span { color: var(--cinza); font-size: 13px; font-weight: 500; }
+  h1 { font-weight: 900; font-size: clamp(24px, 6vw, 34px); line-height: 1.1; margin: 20px 0 6px; text-transform: uppercase; }
+  h1 em { font-style: normal; color: var(--destaque); }
+  .sub { color: var(--cinza); margin: 0 0 16px; font-weight: 500; font-size: 15px; }
+  .controles { display: flex; gap: 8px; flex-wrap: wrap; }
+  .controles input, .controles select { font: inherit; font-size: 15px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--linha); background: var(--cartao); color: var(--tinta); }
+  .controles input { flex: 1 1 220px; min-width: 0; }
+  .controles select { flex: 0 0 auto; }
+  main { max-width: 960px; margin: 0 auto; padding: 8px 16px 32px; }
+  .grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+  .item { background: var(--cartao); border: 1px solid var(--linha); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; }
+  .item.foco { outline: 3px solid var(--destaque); }
+  .foto { aspect-ratio: 4 / 5; background: var(--linha); }
+  .foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .corpo { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .num { font-size: 12px; font-weight: 700; color: var(--destaque); letter-spacing: .06em; text-transform: uppercase; }
+  .nome { font-weight: 900; font-size: 18px; line-height: 1.2; margin: 0; }
+  .preco { font-weight: 700; font-size: 17px; }
+  .desc { display: inline-block; background: var(--destaque); color: #fff; font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 999px; margin-left: 6px; vertical-align: middle; }
+  .data { color: var(--cinza); font-size: 12px; font-weight: 500; }
+  .botoes { display: flex; gap: 8px; margin-top: auto; padding-top: 6px; }
+  .btn { flex: 1; text-align: center; text-decoration: none; font: inherit; font-weight: 700; font-size: 15px; padding: 13px 10px; border-radius: 12px; border: 0; cursor: pointer; }
+  .comprar { background: var(--destaque); color: #fff; }
+  .comprar:hover { background: var(--destaque-escuro); }
+  .copiar { flex: 0 0 auto; background: transparent; color: var(--tinta); border: 1px solid var(--linha); }
+  .copiar.feito { color: var(--ok); border-color: var(--ok); }
+  .post { font-size: 13px; color: var(--cinza); text-decoration: underline; text-underline-offset: 3px; }
+  .aviso { text-align: center; color: var(--cinza); padding: 40px 16px; font-weight: 500; }
+  footer { max-width: 960px; margin: 0 auto; padding: 0 16px 32px; color: var(--cinza); font-size: 12px; line-height: 1.5; font-weight: 500; }
+</style>
+</head>
+<body>
+<header class="topo">
+  <div class="marca"><div class="selo" aria-hidden="true">B</div><div><b>BELE.TECH</b><span>achadinhos da Shopee · @bele.tech26</span></div></div>
+  <h1>Links dos <em>achadinhos</em></h1>
+  <p class="sub">Viu no Instagram? Procure pelo nº ou pelo nome do produto.</p>
+  <div class="controles">
+    <input id="busca" type="search" placeholder="Buscar: nº 1, chave, fone…" aria-label="Buscar produto" autocomplete="off">
+    <select id="ordem" aria-label="Ordenar">
+      <option value="recentes">Mais recentes</option>
+      <option value="menor">Menor preço</option>
+      <option value="maior">Maior preço</option>
+    </select>
+  </div>
+</header>
+<main>
+  <div id="grade" class="grade" aria-live="polite"></div>
+  <p id="aviso" class="aviso">Carregando os produtos…</p>
+</main>
+<footer>
+  Links de afiliado: posso receber comissão pelas compras, sem custo a mais para você.
+  Os preços foram consultados na data indicada em cada produto e podem mudar na Shopee.
+</footer>
+<script>
+(() => {
+  const grade = document.getElementById('grade');
+  const aviso = document.getElementById('aviso');
+  const busca = document.getElementById('busca');
+  const ordem = document.getElementById('ordem');
+  let produtos = [];
+  const semAcento = (s) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+  const linkSeguro = (u) => /^https:\/\//.test(String(u || '')) ? u : '#';
+
+  function cartao(p) {
+    const a = el('article', 'item'); a.id = 'p' + p.id;
+    const f = el('div', 'foto');
+    if (p.imagem) { const img = el('img'); img.src = linkSeguro(p.imagem); img.alt = p.nome || ''; img.loading = 'lazy'; f.append(img); }
+    const c = el('div', 'corpo');
+    c.append(el('div', 'num', 'Produto nº ' + p.id), el('h2', 'nome', p.nome));
+    const preco = el('div', 'preco', p.preco || '');
+    if (p.desconto) preco.append(el('span', 'desc', p.desconto));
+    c.append(preco);
+    if (p.consultado_em) c.append(el('div', 'data', 'Preço consultado em ' + p.consultado_em));
+    const b = el('div', 'botoes');
+    const comprar = el('a', 'btn comprar', 'Ver na Shopee'); comprar.href = linkSeguro(p.link); comprar.target = '_blank'; comprar.rel = 'noopener sponsored';
+    const copiar = el('button', 'btn copiar', 'Copiar link'); copiar.type = 'button';
+    copiar.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(p.link); copiar.textContent = 'Copiado!'; copiar.classList.add('feito'); }
+      catch (e) { window.prompt('Copie o link:', p.link); }
+      setTimeout(() => { copiar.textContent = 'Copiar link'; copiar.classList.remove('feito'); }, 2000);
+    });
+    b.append(comprar, copiar); c.append(b);
+    if (p.post) { const v = el('a', 'post', 'Ver o post no Instagram'); v.href = linkSeguro(p.post); v.target = '_blank'; v.rel = 'noopener'; c.append(v); }
+    a.append(f, c);
+    return a;
+  }
+
+  function mostrar() {
+    const q = semAcento(busca.value).replace(/^n[ºo°]?\s*/, '').trim();
+    let lista = produtos.filter(p => !q || String(p.id) === q || semAcento(p.nome).includes(q));
+    if (ordem.value === 'menor') lista.sort((a, b) => (a.preco_min ?? 1e9) - (b.preco_min ?? 1e9));
+    else if (ordem.value === 'maior') lista.sort((a, b) => (b.preco_min ?? -1) - (a.preco_min ?? -1));
+    else lista.sort((a, b) => String(b.publicado_em).localeCompare(String(a.publicado_em)));
+    grade.replaceChildren(...lista.map(cartao));
+    aviso.textContent = lista.length ? '' : (produtos.length ? 'Nenhum produto com esse nome ou nº.' : 'Ainda não tem produto aqui.');
+    aviso.hidden = !!lista.length;
+  }
+
+  busca.addEventListener('input', mostrar);
+  ordem.addEventListener('change', mostrar);
+  fetch('produtos.json?v=' + Date.now(), { cache: 'no-store' })
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(lista => {
+      produtos = Array.isArray(lista) ? lista : [];
+      mostrar();
+      const alvo = location.hash && document.querySelector(location.hash);
+      if (alvo) { alvo.classList.add('foco'); alvo.scrollIntoView({ block: 'center' }); }
+    })
+    .catch(() => { aviso.textContent = 'Não consegui carregar os produtos agora. Tente de novo em instantes.'; });
+})();
+</script>
+</body>
+</html>
