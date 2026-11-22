@@ -2,214 +2,314 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Achadinhos bele.tech26</title>
 <meta name="description" content="Todos os links dos achadinhos da Shopee postados no Instagram @bele.tech26.">
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#EE4D2D">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23EE4D2D'/%3E%3Cpath d='M20 24h24l-2 26H22z' fill='none' stroke='%23fff' stroke-width='4' stroke-linejoin='round'/%3E%3Cpath d='M26 24v-3a6 6 0 0 1 12 0v3' fill='none' stroke='%23fff' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='37' r='4' fill='%23FFD400'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#04112E">
+<link rel="icon" href="perfil.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
+  /* Vitrine do link da bio (@bele.tech26). Lê produtos.json, que o fluxo "Publicar carrossel" atualiza a cada post.
+     Cores: bandeira do Brasil (verde, amarelo, azul) + laranja da Shopee, num visual escuro e futurista. */
   :root {
-    --laranja: #EE4D2D; --laranja-2: #FF7337; --laranja-escuro: #D73211; --amarelo: #FFD400;
-    --fundo: #F5F5F5; --cartao: #FFFFFF; --tinta: #222222; --cinza: #757575; --linha: #E8E8E8;
-    --suave: #FFF1EC; --ok: #26AA99; --sombra: 0 1px 2px rgba(0,0,0,.06), 0 4px 14px rgba(0,0,0,.05);
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --fundo: #121212; --cartao: #1E1E1E; --tinta: #F2F2F2; --cinza: #A8A8A8; --linha: #2E2E2E;
-      --suave: #3A211A; --sombra: 0 1px 2px rgba(0,0,0,.4);
-    }
-  }
-  :root[data-theme="dark"] {
-    --fundo: #121212; --cartao: #1E1E1E; --tinta: #F2F2F2; --cinza: #A8A8A8; --linha: #2E2E2E;
-    --suave: #3A211A; --sombra: 0 1px 2px rgba(0,0,0,.4);
+    color-scheme: dark;
+    --verde: #009C3B; --verde-neon: #19E07A; --amarelo: #FFDF00; --azul: #002776; --azul-claro: #3D7BFF;
+    --shopee: #EE4D2D; --shopee-2: #FF7337;
+    --fundo: #04112E; --fundo-2: #071A42;
+    --vidro: rgba(255,255,255,.05); --vidro-forte: rgba(255,255,255,.085);
+    --borda: rgba(255,255,255,.10); --borda-forte: rgba(255,255,255,.18);
+    --tinta: #F5F7FF; --tinta-2: #B9C3DE; --tinta-3: #8190B5;
+    --grad-shopee: linear-gradient(120deg, #EE4D2D 0%, #FF7337 100%);
+    --grad-br: linear-gradient(90deg, #009C3B 0%, #19E07A 30%, #FFDF00 55%, #FF7337 78%, #EE4D2D 100%);
+    --sombra: 0 1px 0 rgba(255,255,255,.05) inset, 0 24px 48px -28px rgba(0,0,0,.9);
+    --raio: 22px;
   }
   * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
-  body { margin: 0; background: var(--fundo); color: var(--tinta); font-family: Montserrat, system-ui, -apple-system, "Segoe UI", sans-serif; }
+  html { -webkit-text-size-adjust: 100%; scroll-padding-top: 100px; }
+  body { margin: 0; min-height: 100vh; background: var(--fundo); color: var(--tinta); overflow-x: hidden;
+         font-family: Sora, system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
   a { color: inherit; }
-  .caixa { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+  [hidden] { display: none !important; }
+  .mono { font-family: "JetBrains Mono", ui-monospace, Consolas, monospace; }
+  .caixa { max-width: 1180px; margin: 0 auto; padding: 0 16px; }
 
-  /* ---------- barra laranja ---------- */
-  .barra { background: linear-gradient(180deg, var(--laranja), var(--laranja-2)); color: #fff; position: sticky; top: 0; z-index: 5; box-shadow: 0 2px 8px rgba(0,0,0,.12); }
-  .mini { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; font-weight: 600; padding-top: 8px; opacity: .95; }
-  .mini a { text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
-  .mini a:hover { text-decoration: underline; }
-  .principal { display: flex; align-items: center; gap: 24px; padding: 12px 0 16px; }
+  /* ---------- fundo ---------- */
+  .ceu { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden;
+         background: radial-gradient(120% 80% at 50% -10%, #0B2A6B 0%, var(--fundo) 55%); }
+  .ceu::before { content: ""; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,.13) 1px, transparent 1.4px); background-size: 28px 28px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 55% at 50% 0%, #000 25%, transparent 75%); mask-image: radial-gradient(ellipse 80% 55% at 50% 0%, #000 25%, transparent 75%); }
+  .orbe { position: absolute; border-radius: 50%; filter: blur(90px); }
+  .orbe.v { width: 520px; height: 520px; top: -200px; left: -160px; background: var(--verde); opacity: .35; }
+  .orbe.a { width: 420px; height: 420px; top: 120px; right: -120px; background: var(--amarelo); opacity: .16; }
+  .orbe.s { width: 460px; height: 460px; top: 520px; left: 30%; background: var(--shopee); opacity: .16; }
+
+  /* ---------- faixa da bandeira + topo ---------- */
+  .faixa-br { height: 4px; background: linear-gradient(90deg, var(--verde) 0 33.3%, var(--amarelo) 33.3% 66.6%, var(--azul-claro) 66.6% 100%); }
+  .topo { position: sticky; top: 0; z-index: 10; padding: 12px 0; }
+  .barra { display: flex; align-items: center; gap: 14px; padding: 8px 8px 8px 12px; border-radius: 999px;
+           background: color-mix(in srgb, var(--fundo) 70%, transparent); border: 1px solid var(--borda); box-shadow: var(--sombra);
+           -webkit-backdrop-filter: blur(18px) saturate(150%); backdrop-filter: blur(18px) saturate(150%); }
   .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex: 0 0 auto; }
-  .logo svg { width: 46px; height: 46px; flex: 0 0 auto; }
-  .logo .txt { line-height: 1; }
-  .logo .txt b { display: block; font-weight: 900; font-size: 24px; letter-spacing: -.01em; }
-  .logo .txt b span { color: var(--amarelo); }
-  .logo .txt small { display: block; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; opacity: .9; margin-top: 4px; }
-  .busca { flex: 1; display: flex; background: #fff; border-radius: 4px; padding: 3px; box-shadow: 0 1px 2px rgba(0,0,0,.09); min-width: 0; }
-  .busca input { flex: 1; min-width: 0; border: 0; outline: 0; font: inherit; font-size: 15px; padding: 10px 12px; color: #222; background: transparent; }
-  .busca button { border: 0; background: var(--laranja); color: #fff; border-radius: 3px; padding: 0 22px; cursor: pointer; display: grid; place-items: center; }
-  .busca button:hover { background: var(--laranja-escuro); }
-  .busca button svg { width: 18px; height: 18px; }
+  .logo .avatar { width: 40px; height: 40px; flex: 0 0 auto; border-radius: 50%; background: #fff; object-fit: cover;
+                  box-shadow: 0 0 0 2px var(--amarelo), 0 0 0 4px var(--verde), 0 6px 16px -4px rgba(0,0,0,.6); }
+  .logo b { font-size: 17px; font-weight: 800; letter-spacing: -.02em; }
+  .logo b span { color: var(--amarelo); }
+  .busca { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; height: 42px; padding: 0 6px 0 14px; border-radius: 999px;
+           background: var(--vidro); border: 1px solid var(--borda); transition: border-color .2s, box-shadow .2s; }
+  .busca:focus-within { border-color: rgba(255,223,0,.65); box-shadow: 0 0 0 4px rgba(255,223,0,.14); }
+  .busca svg { width: 17px; height: 17px; color: var(--tinta-3); flex: 0 0 auto; }
+  .busca input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--tinta); font: inherit; font-size: 14px; }
+  .busca input::placeholder { color: var(--tinta-3); }
+  .tecla { font-size: 11px; color: var(--tinta-3); border: 1px solid var(--borda-forte); border-radius: 6px; padding: 2px 7px; }
+  .ig { display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 16px; border-radius: 999px; flex: 0 0 auto;
+        text-decoration: none; font-weight: 600; font-size: 14px; color: #fff; background: var(--grad-shopee);
+        box-shadow: 0 8px 24px -8px rgba(238,77,45,.7); transition: transform .2s, box-shadow .2s; }
+  .ig:hover { transform: translateY(-1px); box-shadow: 0 12px 28px -8px rgba(238,77,45,.85); }
+  .ig svg { width: 17px; height: 17px; }
 
-  /* ---------- faixa de destaque ---------- */
-  .faixa { margin-top: 16px; background: var(--cartao); border-radius: 4px; box-shadow: var(--sombra); display: flex; align-items: center; gap: 16px; padding: 16px; flex-wrap: wrap; }
-  .faixa .icone { width: 48px; height: 48px; border-radius: 50%; background: var(--suave); display: grid; place-items: center; flex: 0 0 auto; }
-  .faixa .icone svg { width: 26px; height: 26px; color: var(--laranja); }
-  .faixa h1 { margin: 0; font-size: clamp(17px, 4.2vw, 22px); font-weight: 900; text-transform: uppercase; letter-spacing: .01em; }
-  .faixa h1 em { font-style: normal; color: var(--laranja); }
-  .faixa p { margin: 4px 0 0; color: var(--cinza); font-size: 14px; font-weight: 500; }
-  .faixa .texto { flex: 1 1 260px; min-width: 0; }
-  .ig { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; border: 1px solid var(--laranja); color: var(--laranja); border-radius: 2px; padding: 9px 14px; font-weight: 700; font-size: 14px; background: var(--cartao); }
-  .ig:hover { background: var(--suave); }
-  .ig svg { width: 18px; height: 18px; }
+  /* ---------- abertura: texto + achado do dia ---------- */
+  .abertura { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 40px; align-items: center; padding: 40px 0 36px; }
+  .selo { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--tinta-2);
+          padding: 6px 12px 6px 8px; border-radius: 999px; background: var(--vidro); border: 1px solid var(--borda); }
+  .selo .bandeirinha { width: 22px; height: 15px; border-radius: 3px; flex: 0 0 auto; }
+  h1 { margin: 18px 0 14px; font-size: clamp(34px, 6vw, 62px); line-height: 1.02; letter-spacing: -.045em; font-weight: 800; }
+  h1 .v { color: var(--verde-neon); }
+  h1 .a { color: var(--amarelo); }
+  h1 .s { background: var(--grad-shopee); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .abertura p { margin: 0; max-width: 500px; color: var(--tinta-2); font-size: 16px; }
+  .abertura p b { color: var(--tinta); font-weight: 600; }
+  .numeros { margin-top: 26px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; max-width: 520px; }
+  .numero { position: relative; overflow: hidden; padding: 14px 14px 12px; border-radius: 16px; background: var(--vidro); border: 1px solid var(--borda); min-width: 0; }
+  .numero::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--cor, var(--verde)); }
+  .numero small { display: block; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--tinta-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .numero b { display: block; margin-top: 6px; font-size: 26px; font-weight: 700; letter-spacing: -.03em; line-height: 1.1; }
 
-  /* ---------- ordenar ---------- */
-  .ordenar { margin-top: 12px; background: var(--linha); background: color-mix(in srgb, var(--linha) 60%, var(--fundo)); border-radius: 4px; padding: 10px 12px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 14px; }
-  .ordenar > span { color: var(--cinza); font-weight: 600; margin-right: 4px; }
-  .chip { font: inherit; font-weight: 600; font-size: 14px; border: 0; border-radius: 2px; padding: 8px 14px; background: var(--cartao); color: var(--tinta); cursor: pointer; box-shadow: 0 1px 1px rgba(0,0,0,.05); }
-  .chip[aria-pressed="true"] { background: var(--laranja); color: #fff; }
-  .contagem { margin-left: auto; color: var(--cinza); font-weight: 600; }
+  .palco { position: relative; display: grid; place-items: center; min-height: 500px; }
+  .palco .losango { position: absolute; width: 112%; aspect-ratio: 1.45 / 1; background: linear-gradient(135deg, var(--amarelo), #FFB800);
+                    clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); filter: drop-shadow(0 30px 60px rgba(255,223,0,.25)); }
+  .palco .globo { position: absolute; width: 62%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #1E4FB8, var(--azul) 70%);
+                  box-shadow: inset 0 0 0 2px rgba(255,255,255,.15); }
+  .palco .globo::after { content: ""; position: absolute; left: -6%; right: -6%; top: 46%; height: 9%; border-radius: 50%;
+                         border-top: 3px solid rgba(255,255,255,.75); transform: rotate(-9deg); }
+  .destaque { position: relative; z-index: 1; width: min(250px, 70%); }
+  .destaque .data { display: none; }
+  .destaque .nome { min-height: 0; font-size: 15px; }
+  .destaque .preco { min-height: 0; }
+  .destaque .preco b { font-size: 22px; }
+  .destaque .corpo { gap: 8px; padding-top: 12px; }
+  .destaque .etiqueta { position: absolute; z-index: 2; top: -14px; left: 50%; transform: translateX(-50%); white-space: nowrap;
+                        font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--azul);
+                        background: var(--amarelo); padding: 6px 14px; border-radius: 999px; box-shadow: 0 8px 20px -8px rgba(0,0,0,.6); }
+  .destaque .item { background: color-mix(in srgb, var(--fundo-2) 92%, transparent); box-shadow: 0 30px 60px -20px rgba(0,0,0,.75); animation: none; }
 
-  /* ---------- grade de produtos ---------- */
-  main { padding-bottom: 24px; }
-  .grade { margin-top: 12px; display: grid; grid-template-columns: repeat(auto-fill, minmax(188px, 1fr)); gap: 10px; }
-  @media (max-width: 480px) { .grade { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; } }
-  .item { background: var(--cartao); border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; box-shadow: var(--sombra); border: 1px solid transparent; transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease; position: relative; }
-  .item:hover { transform: translateY(-2px); border-color: var(--laranja); box-shadow: 0 6px 20px rgba(238,77,45,.18); }
-  .item.foco { border-color: var(--laranja); box-shadow: 0 0 0 3px rgba(238,77,45,.35); }
-  .foto { aspect-ratio: 1 / 1; background: #FFFFFF; position: relative; overflow: hidden; }
-  .foto img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
-  .num { position: absolute; top: 0; left: 0; background: var(--laranja); color: #fff; font-weight: 900; font-size: 13px; padding: 5px 9px; border-bottom-right-radius: 6px; letter-spacing: .02em; }
-  .off { position: absolute; top: 0; right: 8px; width: 46px; background: var(--amarelo); color: var(--laranja-escuro); text-align: center; padding: 5px 2px 8px; font-weight: 900; line-height: 1.05; clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 86%, 0 100%); }
-  .off small { display: block; font-size: 9px; font-weight: 700; letter-spacing: .04em; }
-  .off b { display: block; font-size: 14px; }
-  .off i { display: block; font-style: normal; font-size: 10px; color: #fff; background: var(--laranja); margin: 2px 4px 0; border-radius: 2px; }
-  .corpo { padding: 9px 10px 10px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
-  .nome { margin: 0; font-size: 14px; font-weight: 600; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.6em; }
-  .tags { display: flex; gap: 4px; flex-wrap: wrap; }
-  .tag { font-size: 10px; font-weight: 700; color: var(--laranja); border: 1px solid var(--laranja); border-radius: 2px; padding: 1px 4px; text-transform: uppercase; letter-spacing: .02em; }
-  .linha-preco { display: flex; align-items: baseline; justify-content: space-between; gap: 6px; flex-wrap: wrap; }
-  .preco { color: var(--laranja); font-weight: 700; font-size: 18px; white-space: nowrap; }
-  .preco small { font-size: 11px; font-weight: 600; margin-right: 2px; }
-  .extra { color: var(--cinza); font-size: 11px; font-weight: 600; white-space: nowrap; }
-  .data { color: var(--cinza); font-size: 11px; font-weight: 500; }
-  .acoes { display: flex; gap: 6px; margin-top: auto; padding-top: 4px; }
-  .btn { font: inherit; font-weight: 700; font-size: 13px; text-decoration: none; border-radius: 2px; padding: 10px 6px; text-align: center; cursor: pointer; border: 1px solid transparent; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
-  .comprar { flex: 1; background: var(--laranja); color: #fff; }
-  .comprar:hover { background: var(--laranja-escuro); }
-  .copiar { flex: 0 0 40px; padding: 10px 0; background: var(--suave); color: var(--laranja); border-color: color-mix(in srgb, var(--laranja) 35%, transparent); }
-  .copiar svg, .comprar svg { width: 16px; height: 16px; }
-  .copiar.feito { background: var(--ok); color: #fff; border-color: var(--ok); }
-  .post { font-size: 12px; color: var(--cinza); text-decoration: none; display: inline-flex; align-items: center; gap: 5px; font-weight: 600; }
-  .post:hover { color: var(--laranja); }
-  .post svg { width: 14px; height: 14px; }
-  .aviso { text-align: center; color: var(--cinza); padding: 48px 16px; font-weight: 600; background: var(--cartao); border-radius: 4px; margin-top: 12px; box-shadow: var(--sombra); }
-  .aviso[hidden] { display: none; }
+  /* ---------- letreiro ---------- */
+  .letreiro { position: relative; overflow: hidden; border-block: 1px solid var(--borda); background: rgba(0,39,118,.35); }
+  .letreiro::before, .letreiro::after { content: ""; position: absolute; top: 0; bottom: 0; width: 60px; z-index: 1; pointer-events: none; }
+  .letreiro::before { left: 0; background: linear-gradient(90deg, var(--fundo), transparent); }
+  .letreiro::after { right: 0; background: linear-gradient(-90deg, var(--fundo), transparent); }
+  .trilho { display: flex; width: max-content; animation: rola 38s linear infinite; }
+  .letreiro:hover .trilho { animation-play-state: paused; }
+  @keyframes rola { to { transform: translateX(-50%); } }
+  .letreiro a { display: inline-flex; align-items: center; gap: 10px; padding: 12px 22px; text-decoration: none; font-size: 13px; color: var(--tinta-2); white-space: nowrap; }
+  .letreiro a:hover { color: var(--tinta); }
+  .letreiro a b { color: var(--amarelo); font-weight: 700; }
+  .letreiro a i { font-style: normal; color: var(--verde-neon); font-weight: 700; }
+  .letreiro a::after { content: "◆"; margin-left: 12px; color: var(--shopee); font-size: 10px; }
+
+  /* ---------- lista ---------- */
+  .secao { padding: 40px 0 8px; }
+  .cabeca { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
+  .cabeca h2 { margin: 0; font-size: clamp(22px, 3.4vw, 30px); letter-spacing: -.03em; font-weight: 700; }
+  .cabeca h2 small { display: block; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--verde-neon); font-weight: 500; margin-bottom: 6px; }
+  .controles { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .seg { display: inline-flex; gap: 4px; padding: 4px; border-radius: 14px; background: var(--vidro); border: 1px solid var(--borda); max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+  .seg::-webkit-scrollbar { display: none; }
+  .chip { font: inherit; font-size: 13px; font-weight: 500; white-space: nowrap; border: 0; border-radius: 10px; padding: 8px 14px; cursor: pointer;
+          background: transparent; color: var(--tinta-2); transition: background .2s, color .2s; }
+  .chip:hover { color: var(--tinta); }
+  .chip[aria-pressed="true"] { background: var(--verde); color: #fff; box-shadow: 0 6px 16px -8px rgba(0,156,59,.9); }
+  .contagem { font-size: 12px; color: var(--tinta-3); letter-spacing: .04em; }
+
+  .grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+  .item { position: relative; display: flex; flex-direction: column; padding: 10px; border-radius: var(--raio);
+          background: var(--vidro); border: 1px solid var(--borda); box-shadow: var(--sombra);
+          -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+          transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s, border-color .35s;
+          animation: entra .6s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i, 0) * 70ms); }
+  @keyframes entra { from { opacity: 0; transform: translateY(14px); } }
+  .item::before { content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: var(--grad-br); opacity: 0; transition: opacity .35s; pointer-events: none;
+                  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+  .item:hover { transform: translateY(-4px); border-color: transparent; box-shadow: 0 22px 50px -18px rgba(0,156,59,.45); }
+  .item:hover::before, .item.foco::before, .destaque .item::before { opacity: 1; }
+  .item.foco { box-shadow: 0 0 0 4px rgba(255,223,0,.25), 0 22px 50px -18px rgba(255,223,0,.4); }
+  .foto { position: relative; aspect-ratio: 1 / 1; border-radius: 15px; overflow: hidden; background: #fff; }
+  .foto img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+  .item:hover .foto img { transform: scale(1.04); }
+  .num { position: absolute; z-index: 1; top: 10px; left: 10px; font-size: 11.5px; font-weight: 700; letter-spacing: .06em; color: #fff;
+         background: var(--verde); padding: 4px 10px; border-radius: 999px; box-shadow: 0 6px 14px -6px rgba(0,0,0,.6); }
+  .off { position: absolute; z-index: 1; top: 10px; right: 10px; font-size: 12px; font-weight: 700; color: var(--azul);
+         background: var(--amarelo); padding: 4px 10px; border-radius: 999px; box-shadow: 0 6px 14px -6px rgba(0,0,0,.6); }
+  .corpo { padding: 14px 6px 4px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .nome { margin: 0; font-size: 16px; font-weight: 600; letter-spacing: -.01em; line-height: 1.3;
+          display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.6em; }
+  .preco { min-height: 56px; display: flex; flex-direction: column; justify-content: flex-end; }
+  .preco small { display: block; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--tinta-3); margin-bottom: 2px; }
+  .preco b { font-size: 25px; font-weight: 800; letter-spacing: -.03em; white-space: nowrap; color: var(--shopee-2); }
+  .data { font-size: 11px; color: var(--tinta-3); display: flex; align-items: center; gap: 6px; }
+  .data::before { content: ""; width: 6px; height: 6px; background: var(--verde-neon); transform: rotate(45deg); box-shadow: 0 0 8px var(--verde-neon); }
+  .acoes { display: flex; gap: 8px; margin-top: auto; padding-top: 4px; }
+  .btn { font: inherit; font-size: 14px; font-weight: 600; text-decoration: none; border-radius: 12px; height: 44px; cursor: pointer;
+         display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid transparent;
+         transition: transform .2s, box-shadow .2s, background .2s, color .2s, border-color .2s; }
+  .btn svg { width: 17px; height: 17px; flex: 0 0 auto; }
+  .comprar { flex: 1; color: #fff; background: var(--grad-shopee); box-shadow: 0 10px 24px -12px rgba(238,77,45,.9); }
+  .comprar:hover { box-shadow: 0 14px 30px -10px rgba(238,77,45,1); transform: translateY(-1px); }
+  .comprar .seta { transition: transform .25s; }
+  .comprar:hover .seta { transform: translateX(3px); }
+  .copiar, .post { flex: 0 0 44px; background: var(--vidro-forte); color: var(--tinta-2); border-color: var(--borda); }
+  .copiar:hover, .post:hover { color: var(--amarelo); border-color: rgba(255,223,0,.5); }
+  .copiar.feito { background: rgba(25,224,122,.16); color: var(--verde-neon); border-color: rgba(25,224,122,.55); }
+  .btn:focus-visible, .chip:focus-visible, .ig:focus-visible, .logo:focus-visible, .letreiro a:focus-visible { outline: 2px solid var(--amarelo); outline-offset: 2px; }
+
+  .aviso { margin: 0; text-align: center; color: var(--tinta-2); padding: 48px 16px; border: 1px dashed var(--borda-forte); border-radius: var(--raio); background: var(--vidro); }
+  .esqueleto { border-radius: var(--raio); border: 1px solid var(--borda); background: var(--vidro); aspect-ratio: 3 / 4.3; position: relative; overflow: hidden; }
+  .esqueleto::after { content: ""; position: absolute; inset: 0; transform: translateX(-100%); background: linear-gradient(90deg, transparent, rgba(255,255,255,.07), transparent); animation: brilho 1.4s infinite; }
+  @keyframes brilho { to { transform: translateX(100%); } }
 
   /* ---------- rodapé ---------- */
-  footer { background: var(--cartao); border-top: 4px solid var(--laranja); margin-top: 16px; }
-  footer .caixa { padding-top: 20px; padding-bottom: 28px; display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); font-size: 13px; color: var(--cinza); line-height: 1.55; font-weight: 500; }
-  footer h3 { margin: 0 0 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--tinta); font-weight: 900; }
-  footer p { margin: 0; }
+  footer { margin-top: 64px; background: rgba(0,20,60,.5); }
+  footer .caixa { padding-top: 30px; padding-bottom: 36px; display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  footer h3 { margin: 0 0 6px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--amarelo); font-weight: 500; }
+  footer p { margin: 0; font-size: 13px; color: var(--tinta-2); line-height: 1.6; }
+  .assinatura { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 11px; color: var(--tinta-3); padding-top: 18px; border-top: 1px solid var(--borda); }
 
-  .copiado { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: rgba(0,0,0,.82); color: #fff; padding: 10px 16px; border-radius: 4px; font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none; transition: opacity .2s; }
-  .copiado.on { opacity: 1; }
+  .copiado { position: fixed; z-index: 20; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); transform: translate(-50%, 12px);
+             display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; font-size: 14px; font-weight: 500;
+             background: color-mix(in srgb, var(--fundo-2) 90%, transparent); color: var(--tinta); border: 1px solid rgba(25,224,122,.5);
+             -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; }
+  .copiado::before { content: ""; width: 7px; height: 7px; background: var(--verde-neon); transform: rotate(45deg); }
+  .copiado.on { opacity: 1; transform: translate(-50%, 0); }
 
-  @media (max-width: 640px) {
-    .mini .so-largo { display: none; }
-    .principal { flex-wrap: wrap; gap: 10px; padding: 8px 0 12px; }
-    .logo svg { width: 38px; height: 38px; }
-    .logo .txt b { font-size: 20px; }
-    .busca { flex-basis: 100%; }
-    .busca button { padding: 0 16px; }
-    .faixa { padding: 12px; gap: 10px; }
-    .faixa .icone { display: none; }
-    .ig { padding: 7px 12px; font-size: 13px; }
-    .ordenar { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-    .ordenar::-webkit-scrollbar { display: none; }
-    .ordenar > span:first-child { display: none; }
-    .chip { flex: 0 0 auto; padding: 8px 12px; font-size: 13px; }
-    .contagem { margin-left: 0; flex: 0 0 auto; white-space: nowrap; padding-left: 4px; }
-    .corpo { padding: 8px; }
-    .nome { font-size: 13px; }
-    .preco { font-size: 16px; }
-    .btn { font-size: 12px; white-space: nowrap; gap: 4px; padding: 10px 4px; }
-    .comprar svg { display: none; }
-    .copiar { flex-basis: 36px; }
-    .post { font-size: 11px; }
+  @media (max-width: 900px) {
+    .abertura { grid-template-columns: 1fr; gap: 28px; padding-top: 26px; }
+    .palco { min-height: 460px; }
   }
-  @media (prefers-reduced-motion: reduce) { .item, .copiado { transition: none; } .item:hover { transform: none; } }
+  @media (max-width: 640px) {
+    .topo { padding: 8px 0; }
+    .barra { flex-wrap: wrap; border-radius: 22px; gap: 10px; padding: 8px; }
+    .logo { padding-left: 4px; }
+    .ig { margin-left: auto; height: 36px; padding: 0 12px; font-size: 13px; }
+    .busca { order: 3; flex-basis: 100%; height: 40px; }
+    .tecla { display: none; }
+    .numero { padding: 12px 10px 10px; border-radius: 14px; }
+    .numero small { font-size: 9px; letter-spacing: .03em; }
+    .numero b { font-size: 20px; }
+    .palco { min-height: 420px; }
+    .palco .losango { width: 112%; }
+    .palco .globo { width: 66%; }
+    .destaque { width: min(210px, 62%); }
+    .cabeca { flex-direction: column; align-items: stretch; }
+    .grade { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .item { padding: 6px; border-radius: 16px; }
+    .foto { border-radius: 11px; }
+    .num { top: 6px; left: 6px; font-size: 10px; padding: 3px 8px; }
+    .off { top: 6px; right: 6px; font-size: 10.5px; padding: 3px 8px; }
+    .corpo { padding: 10px 4px 2px; gap: 8px; }
+    .nome { font-size: 13.5px; }
+    .preco { min-height: 46px; }
+    .preco b { font-size: 19px; }
+    .data { font-size: 10px; }
+    .acoes { flex-wrap: wrap; gap: 6px; }
+    .comprar { flex: 1 1 100%; height: 40px; font-size: 13px; }
+    .copiar, .post { flex: 1 1 0; height: 36px; }
+  }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
 </head>
 <body>
-<header class="barra">
+<div class="ceu" aria-hidden="true"><span class="orbe v"></span><span class="orbe a"></span><span class="orbe s"></span></div>
+<div class="faixa-br" aria-hidden="true"></div>
+
+<header class="topo">
   <div class="caixa">
-    <div class="mini">
-      <span class="so-largo">Achadinhos da Shopee escolhidos a dedo</span>
-      <a href="https://www.instagram.com/bele.tech26/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-        Siga @bele.tech26
-      </a>
-    </div>
-    <div class="principal">
+    <div class="barra">
       <a class="logo" href="./" aria-label="bele.tech26, início">
-        <svg viewBox="0 0 64 64" aria-hidden="true">
-          <rect width="64" height="64" rx="16" fill="#fff"/>
-          <path d="M18 24h28l-2.4 25.5a3 3 0 0 1-3 2.5H23.4a3 3 0 0 1-3-2.5z" fill="#EE4D2D"/>
-          <path d="M25 24v-3.5a7 7 0 0 1 14 0V24" fill="none" stroke="#EE4D2D" stroke-width="4" stroke-linecap="round"/>
-          <text x="32" y="45" text-anchor="middle" font-family="Montserrat, Arial, sans-serif" font-weight="900" font-size="17" fill="#fff">b</text>
-          <circle cx="46" cy="18" r="6" fill="#FFD400"/>
-        </svg>
-        <span class="txt"><b>bele.tech<span>26</span></b><small>Achadinhos da Shopee</small></span>
+        <img class="avatar" src="perfil.png" alt="" width="40" height="40">
+        <b>bele.tech<span>26</span></b>
       </a>
       <form class="busca" role="search" onsubmit="return false">
-        <input id="busca" type="search" placeholder="Nº do post ou nome do produto" aria-label="Buscar produto" autocomplete="off" enterkeyhint="search">
-        <button type="submit" aria-label="Buscar">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        </button>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="busca" type="search" placeholder="Busque pelo nº do post ou pelo nome" aria-label="Buscar produto" autocomplete="off" enterkeyhint="search">
+        <kbd class="tecla mono" aria-hidden="true">/</kbd>
       </form>
+      <a class="ig" href="https://www.instagram.com/bele.tech26/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        @bele.tech26
+      </a>
     </div>
   </div>
 </header>
 
-<main class="caixa">
-  <section class="faixa">
-    <div class="icone" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>
+<main>
+  <section class="caixa abertura">
+    <div>
+      <span class="selo mono">
+        <svg class="bandeirinha" viewBox="0 0 22 15" aria-hidden="true"><rect width="22" height="15" rx="2" fill="#009C3B"/><path d="M11 2 20 7.5 11 13 2 7.5z" fill="#FFDF00"/><circle cx="11" cy="7.5" r="3.2" fill="#002776"/></svg>
+        Achadinhos da Shopee · um por dia
+      </span>
+      <h1>Os <span class="v">achados</span> que <span class="a">valem</span> o seu <span class="s">clique</span>.</h1>
+      <p>Viu um produto no post? Procure pelo <b>nº</b> que aparece na legenda e toque em <b>Ver na Shopee</b>.</p>
+      <div class="numeros" aria-label="Resumo da vitrine">
+        <div class="numero" style="--cor: var(--verde-neon)"><small class="mono">Produtos</small><b id="n-produtos">—</b></div>
+        <div class="numero" style="--cor: var(--amarelo)"><small class="mono">Maior desconto</small><b id="n-desconto">—</b></div>
+        <div class="numero" style="--cor: var(--shopee)"><small class="mono">Último post</small><b id="n-ultimo">—</b></div>
+      </div>
     </div>
-    <div class="texto">
-      <h1>Links dos <em>achadinhos</em> do Instagram</h1>
-      <p>Viu um produto no post? Procure pelo <b>nº</b> que aparece na legenda e toque em “Ver na Shopee”.</p>
+    <div class="palco" aria-label="Achado do dia">
+      <span class="losango" aria-hidden="true"></span>
+      <span class="globo" aria-hidden="true"></span>
+      <div class="destaque" id="destaque"><span class="etiqueta mono">Achado do dia</span><div class="esqueleto"></div></div>
     </div>
-    <a class="ig" href="https://www.instagram.com/bele.tech26/" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-      @bele.tech26
-    </a>
   </section>
 
-  <div class="ordenar" role="group" aria-label="Ordenar produtos">
-    <span>Ordenar por</span>
-    <button class="chip" type="button" data-ordem="recentes" aria-pressed="true">Mais recentes</button>
-    <button class="chip" type="button" data-ordem="menor" aria-pressed="false">Menor preço</button>
-    <button class="chip" type="button" data-ordem="maior" aria-pressed="false">Maior preço</button>
-    <button class="chip" type="button" data-ordem="desconto" aria-pressed="false">Maior desconto</button>
-    <span class="contagem" id="contagem"></span>
-  </div>
+  <div class="letreiro" id="letreiro" aria-label="Todos os produtos" hidden><div class="trilho" id="trilho"></div></div>
 
-  <div id="grade" class="grade" aria-live="polite"></div>
-  <p id="aviso" class="aviso">Carregando os produtos…</p>
+  <section class="caixa secao">
+    <div class="cabeca">
+      <h2><small class="mono">Vitrine completa</small>Todos os achadinhos</h2>
+      <div class="controles">
+        <div class="seg" role="group" aria-label="Ordenar produtos">
+          <button class="chip" type="button" data-ordem="recentes" aria-pressed="true">Mais recentes</button>
+          <button class="chip" type="button" data-ordem="menor" aria-pressed="false">Menor preço</button>
+          <button class="chip" type="button" data-ordem="maior" aria-pressed="false">Maior preço</button>
+          <button class="chip" type="button" data-ordem="desconto" aria-pressed="false">Maior desconto</button>
+        </div>
+        <span class="contagem mono" id="contagem"></span>
+      </div>
+    </div>
+    <div id="grade" class="grade" aria-live="polite">
+      <div class="esqueleto"></div><div class="esqueleto"></div><div class="esqueleto"></div><div class="esqueleto"></div>
+    </div>
+    <p id="aviso" class="aviso" hidden></p>
+  </section>
 </main>
 
 <footer>
+  <div class="faixa-br" aria-hidden="true"></div>
   <div class="caixa">
     <div>
-      <h3>Preços</h3>
+      <h3 class="mono">Preços</h3>
       <p>Cada preço foi consultado na data indicada no produto e pode mudar na Shopee. Confira o valor final no app antes de comprar.</p>
     </div>
     <div>
-      <h3>Sobre esta página</h3>
+      <h3 class="mono">Sobre esta página</h3>
       <p>Vitrine do perfil @bele.tech26. Não é o site oficial da Shopee: a compra, a entrega e o atendimento são feitos pela Shopee e pela loja vendedora.</p>
     </div>
+    <div class="assinatura mono"><span>bele.tech26 · achadinhos do Brasil</span><span id="atualizado"></span></div>
   </div>
 </footer>
 
@@ -221,6 +321,9 @@
   const aviso = document.getElementById('aviso');
   const busca = document.getElementById('busca');
   const contagem = document.getElementById('contagem');
+  const destaque = document.getElementById('destaque');
+  const letreiro = document.getElementById('letreiro');
+  const trilho = document.getElementById('trilho');
   const toast = document.getElementById('copiado');
   const chips = [...document.querySelectorAll('.chip')];
   let ordem = 'recentes';
@@ -232,87 +335,120 @@
   const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
   const linkSeguro = (u) => /^https:\/\//.test(String(u || '')) ? u : '#';
   const pct = (p) => { const m = String(p.desconto || '').match(/(\d+)\s*%/); return m ? Number(m[1]) : 0; };
-  const icone = (d) => {
+  const dois = (n) => String(n).padStart(2, '0');
+  const recentes = (a, b) => String(b.publicado_em).localeCompare(String(a.publicado_em));
+  const icone = (d, cls) => {
     const s = document.createElementNS(NS, 'svg');
     s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('fill', 'none'); s.setAttribute('stroke', 'currentColor');
-    s.setAttribute('stroke-width', '2.2'); s.setAttribute('stroke-linecap', 'round'); s.setAttribute('stroke-linejoin', 'round'); s.setAttribute('aria-hidden', 'true');
+    s.setAttribute('stroke-width', '2'); s.setAttribute('stroke-linecap', 'round'); s.setAttribute('stroke-linejoin', 'round'); s.setAttribute('aria-hidden', 'true');
+    if (cls) s.setAttribute('class', cls);
     d.forEach(x => { const p = document.createElementNS(NS, 'path'); p.setAttribute('d', x); s.append(p); });
     return s;
   };
   const ICONE_COPIAR = ['M9 9h10v10H9z', 'M5 15V5h10'];
   const ICONE_OK = ['M5 12l5 5L20 7'];
-  const ICONE_SACOLA = ['M6 8h12l-1.2 12H7.2z', 'M9 8V7a3 3 0 0 1 6 0v1'];
-  const ICONE_PLAY = ['M4 4h16v16H4z', 'M10 9l5 3-5 3z'];
+  const ICONE_SETA = ['M5 12h14', 'M13 6l6 6-6 6'];
+  const ICONE_IG = ['M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4z', 'M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0z', 'M17.5 6.5h.01'];
 
   function mostrarToast(txt) {
     toast.textContent = txt; toast.classList.add('on');
     clearTimeout(mostrarToast.t); mostrarToast.t = setTimeout(() => toast.classList.remove('on'), 1800);
   }
 
-  function cartao(p) {
-    const a = el('article', 'item'); a.id = 'p' + p.id;
+  function cartao(p, i) {
+    const a = el('article', 'item'); a.id = 'p' + p.id; a.style.setProperty('--i', String(Math.min(i || 0, 8)));
     const f = el('div', 'foto');
     // Foto limpa do produto (fotos/pN.jpg, a foto do anúncio sem texto do vendedor). Sem ela, usa o card do post.
     const img = el('img'); img.alt = p.nome || ''; img.loading = 'lazy'; img.decoding = 'async';
     img.src = 'fotos/p' + Number(p.id) + '.jpg';
-    img.addEventListener('error', () => { if (p.imagem && img.src !== p.imagem) img.src = linkSeguro(p.imagem); else img.remove(); }, { once: false });
-    f.append(img);
-    f.append(el('span', 'num', 'Nº ' + p.id));
+    img.addEventListener('error', () => { if (p.imagem && img.src !== p.imagem) img.src = linkSeguro(p.imagem); else img.remove(); });
+    f.append(img, el('span', 'num mono', 'Nº ' + dois(p.id)));
     const d = pct(p);
-    if (d > 0) {
-      const off = el('div', 'off'); off.setAttribute('aria-label', 'até ' + d + '% de desconto');
-      off.append(el('small', null, 'ATÉ'), el('b', null, d + '%'), el('i', null, 'OFF'));
-      f.append(off);
-    }
+    if (d > 0) { const off = el('span', 'off mono', '−' + d + '%'); off.setAttribute('aria-label', 'até ' + d + '% de desconto'); f.append(off); }
+
     const c = el('div', 'corpo');
-    c.append(el('h2', 'nome', p.nome || ('Produto nº ' + p.id)));
-    const tags = el('div', 'tags');
-    tags.append(el('span', 'tag', 'Post nº ' + p.id));
-    if (d > 0) tags.append(el('span', 'tag', 'Desconto'));
-    c.append(tags);
-    const lp = el('div', 'linha-preco');
+    c.append(el('h3', 'nome', p.nome || ('Produto nº ' + p.id)));
     const pr = el('div', 'preco');
     const txt = String(p.preco || '');
-    const aPartir = /a partir de/i.test(txt);
-    if (aPartir) pr.append(el('small', null, 'a partir de'));
-    pr.append(document.createTextNode(txt.replace(/a partir de\s*/i, '')));
-    lp.append(pr);
-    if (p.vendidos) lp.append(el('span', 'extra', p.vendidos + ' vendidos'));
-    c.append(lp);
-    if (p.consultado_em) c.append(el('div', 'data', 'Preço consultado em ' + p.consultado_em));
+    if (/a partir de/i.test(txt)) pr.append(el('small', 'mono', 'a partir de'));
+    pr.append(el('b', null, txt.replace(/a partir de\s*/i, '')));
+    c.append(pr);
+    if (p.consultado_em) c.append(el('div', 'data mono', 'preço de ' + p.consultado_em));
+
     const acoes = el('div', 'acoes');
-    const comprar = el('a', 'btn comprar'); comprar.append(icone(ICONE_SACOLA), document.createTextNode('Ver na Shopee'));
+    const comprar = el('a', 'btn comprar');
+    comprar.append(document.createTextNode('Ver na Shopee'), icone(ICONE_SETA, 'seta'));
     comprar.href = linkSeguro(p.link); comprar.target = '_blank'; comprar.rel = 'noopener sponsored';
-    const copiar = el('button', 'btn copiar'); copiar.type = 'button'; copiar.title = 'Copiar link'; copiar.setAttribute('aria-label', 'Copiar link do produto nº ' + p.id);
+    const copiar = el('button', 'btn copiar'); copiar.type = 'button'; copiar.title = 'Copiar link';
+    copiar.setAttribute('aria-label', 'Copiar link do produto nº ' + p.id);
     copiar.append(icone(ICONE_COPIAR));
     copiar.addEventListener('click', async () => {
       try { await navigator.clipboard.writeText(p.link); }
       catch (e) { window.prompt('Copie o link:', p.link); return; }
-      copiar.classList.add('feito'); copiar.replaceChildren(icone(ICONE_OK)); mostrarToast('Link do produto nº ' + p.id + ' copiado!');
+      copiar.classList.add('feito'); copiar.replaceChildren(icone(ICONE_OK)); mostrarToast('Link do produto nº ' + p.id + ' copiado');
       setTimeout(() => { copiar.classList.remove('feito'); copiar.replaceChildren(icone(ICONE_COPIAR)); }, 2000);
     });
-    acoes.append(comprar, copiar); c.append(acoes);
+    acoes.append(comprar, copiar);
     if (p.post) {
-      const v = el('a', 'post'); v.append(icone(ICONE_PLAY), document.createTextNode('Post no Instagram'));
-      v.href = linkSeguro(p.post); v.target = '_blank'; v.rel = 'noopener'; c.append(v);
-    } else {
-      c.append(el('span', 'post', ' ')); // mantém os botões alinhados com os outros cards
+      const v = el('a', 'btn post'); v.append(icone(ICONE_IG)); v.title = 'Ver o post no Instagram';
+      v.setAttribute('aria-label', 'Ver o post nº ' + p.id + ' no Instagram');
+      v.href = linkSeguro(p.post); v.target = '_blank'; v.rel = 'noopener'; acoes.append(v);
     }
+    c.append(acoes);
     a.append(f, c);
     return a;
   }
 
+  function resumo() {
+    document.getElementById('n-produtos').textContent = dois(produtos.length);
+    const maior = produtos.reduce((m, p) => Math.max(m, pct(p)), 0);
+    document.getElementById('n-desconto').textContent = maior ? maior + '%' : '—';
+    const ult = [...produtos].sort(recentes)[0];
+    const m = ult && String(ult.publicado_em || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
+    document.getElementById('n-ultimo').textContent = m ? m[3] + '/' + m[2] : '—';
+    document.getElementById('atualizado').textContent = m ? 'atualizado em ' + m[3] + '/' + m[2] + '/' + m[1] : '';
+
+    // Achado do dia = o post mais recente (sem id: o #pN sempre aponta para o card da grade)
+    const etiqueta = destaque.querySelector('.etiqueta');
+    if (ult) { const card = cartao(ult, 0); card.removeAttribute('id'); destaque.replaceChildren(etiqueta, card); }
+    else destaque.closest('.palco').hidden = true;
+
+    // Letreiro: cada produto vira um link para o seu card (lista repetida para rolar sem emenda)
+    if (produtos.length) {
+      const itens = [...produtos].sort(recentes).map(p => {
+        const a = el('a'); a.href = '#p' + p.id;
+        a.append(el('b', 'mono', 'Nº ' + dois(p.id)), document.createTextNode(p.nome || ''));
+        if (pct(p)) a.append(el('i', 'mono', '−' + pct(p) + '%'));
+        return a;
+      });
+      let lista = itens;
+      while (lista.length < 8) lista = lista.concat(itens.map(x => x.cloneNode(true)));
+      const copia = lista.map(x => { const c = x.cloneNode(true); c.setAttribute('aria-hidden', 'true'); c.tabIndex = -1; return c; });
+      trilho.replaceChildren(...lista, ...copia);
+      letreiro.hidden = false;
+    }
+  }
+
   function mostrar() {
-    const q = semAcento(busca.value).replace(/^(produto|post)?\s*n[ºo°.]?\s*/, '').trim();
+    const q = semAcento(busca.value).replace(/^(produto|post)?\s*n[ºo°.]?\s*/, '').trim().replace(/^0+(?=\d)/, '');
     let lista = produtos.filter(p => !q || String(p.id) === q || semAcento(p.nome).includes(q));
     if (ordem === 'menor') lista.sort((a, b) => (a.preco_min ?? 1e9) - (b.preco_min ?? 1e9));
     else if (ordem === 'maior') lista.sort((a, b) => (b.preco_min ?? -1) - (a.preco_min ?? -1));
     else if (ordem === 'desconto') lista.sort((a, b) => pct(b) - pct(a));
-    else lista.sort((a, b) => String(b.publicado_em).localeCompare(String(a.publicado_em)));
+    else lista.sort(recentes);
     grade.replaceChildren(...lista.map(cartao));
-    contagem.textContent = produtos.length ? (lista.length === produtos.length ? produtos.length + (produtos.length === 1 ? ' produto' : ' produtos') : lista.length + ' de ' + produtos.length) : '';
-    aviso.textContent = lista.length ? '' : (produtos.length ? 'Nenhum produto com esse nome ou nº.' : 'Ainda não tem produto aqui. Volte depois do próximo post!');
+    const n = produtos.length;
+    contagem.textContent = n ? (lista.length === n ? n + (n === 1 ? ' produto' : ' produtos') : lista.length + ' de ' + n) : '';
+    aviso.textContent = lista.length ? '' : (n ? 'Nenhum produto com esse nome ou nº.' : 'Ainda não tem produto aqui. Volte depois do próximo post!');
     aviso.hidden = !!lista.length;
+  }
+
+  function focar(hash) {
+    if (!/^#p\d+$/.test(hash)) return;
+    const alvo = grade.querySelector(hash);
+    if (!alvo) return;
+    grade.querySelectorAll('.foco').forEach(x => x.classList.remove('foco'));
+    alvo.classList.add('foco'); alvo.scrollIntoView({ block: 'center', behavior: 'smooth' });
   }
 
   chips.forEach(ch => ch.addEventListener('click', () => {
@@ -323,16 +459,27 @@
   }));
   chips.forEach(x => x.setAttribute('aria-pressed', String(x.dataset.ordem === ordem)));
   busca.addEventListener('input', mostrar);
+  trilho.addEventListener('click', (e) => {
+    const a = e.target.closest('a'); if (!a) return;
+    e.preventDefault(); busca.value = ''; mostrar();
+    history.replaceState(null, '', a.getAttribute('href')); focar(a.getAttribute('href'));
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '/' && document.activeElement !== busca && !e.ctrlKey && !e.metaKey) { e.preventDefault(); busca.focus(); }
+  });
 
   fetch('produtos.json?v=' + Date.now(), { cache: 'no-store' })
     .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(lista => {
       produtos = Array.isArray(lista) ? lista.filter(p => p && p.id != null && /^https:\/\//.test(String(p.link || ''))) : [];
+      resumo();
       mostrar();
-      const alvo = /^#p\d+$/.test(location.hash) && document.querySelector(location.hash);
-      if (alvo) { alvo.classList.add('foco'); alvo.scrollIntoView({ block: 'center' }); }
+      focar(location.hash);
     })
-    .catch(() => { aviso.textContent = 'Não consegui carregar os produtos agora. Tente de novo em instantes.'; aviso.hidden = false; });
+    .catch(() => {
+      grade.replaceChildren(); destaque.closest('.palco').hidden = true;
+      aviso.textContent = 'Não consegui carregar os produtos agora. Tente de novo em instantes.'; aviso.hidden = false;
+    });
 })();
 </script>
 </body>
