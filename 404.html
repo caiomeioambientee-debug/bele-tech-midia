@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>bele.tech26 · abrindo o produto</title>
+<!-- Link personalizado de cada post: beletech26.com.br/p2 → link de afiliado do produto nº 2 (com o sub_id).
+     O GitHub Pages abre esta página para qualquer endereço que não existe; ela lê o nº e procura no produtos.json,
+     que o fluxo "Publicar carrossel" atualiza a cada post. Sem o nº na lista, volta para a vitrine. -->
+<style>
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #F5F5F5; color: #222;
+         font: 15px/1.5 "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif; padding: 0 16px; }
+  .caixa { background: #fff; border-radius: 8px; padding: 28px 24px; max-width: 360px; text-align: center;
+           box-shadow: 0 1px 4px rgba(0,0,0,.08); border-top: 4px solid #EE4D2D; }
+  b { color: #EE4D2D; }
+  a { display: inline-block; margin-top: 14px; background: #EE4D2D; color: #fff; text-decoration: none;
+      padding: 10px 18px; border-radius: 4px; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="caixa">
+  <div><b>bele.tech26</b></div>
+  <p id="msg">Abrindo o produto na Shopee…</p>
+  <a id="ir" href="./">Ver todos os achadinhos</a>
+</div>
+<script>
+(function () {
+  var caminho = location.pathname;
+  var m = caminho.match(/\/p(\d+)\/?$/i) || location.hash.match(/^#p(\d+)$/i);
+  // raiz do site: no domínio próprio é "/", no endereço antigo é "/bele-tech-midia/"
+  var raiz = caminho.replace(/\/p\d+\/?$/i, '/').replace(/[^/]*$/, '');
+  var vitrine = raiz || '/';
+  document.getElementById('ir').href = vitrine;
+  if (!m) { location.replace(vitrine); return; }
+  var id = Number(m[1]);
+  document.getElementById('ir').href = vitrine + '#p' + id;
+  fetch(vitrine + 'produtos.json', { cache: 'no-store' })
+    .then(function (r) { return r.json(); })
+    .then(function (lista) {
+      var p = (lista || []).filter(function (x) { return Number(x.id) === id; })[0];
+      if (p && /^https:\/\/s\.shopee\.com\.br\//.test(p.link)) {
+        document.getElementById('msg').textContent = 'Abrindo ' + (p.nome || 'o produto nº ' + id) + ' na Shopee…';
+        document.getElementById('ir').href = p.link;
+        document.getElementById('ir').textContent = 'Abrir na Shopee';
+        location.replace(p.link);
+      } else {
+        location.replace(vitrine + '#p' + id);
+      }
+    })
+    .catch(function () { location.replace(vitrine + '#p' + id); });
+})();
+</script>
+</body>
+</html>
