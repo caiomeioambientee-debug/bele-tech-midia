@@ -1,5 +1,17 @@
 [
   {
+    "id": 2,
+    "nome": "Máquina de Cortar Cabelo",
+    "link": "https://s.shopee.com.br/5q9tgWMafu",
+    "imagem": "https://raw.githubusercontent.com/caiomeioambientee-debug/bele-tech-midia/main/posts/p2-47/card-1.jpg",
+    "preco": "R$ 19,98",
+    "preco_min": 19.98,
+    "desconto": "até 60% de desconto",
+    "consultado_em": "22/11/2026",
+    "post": "https://www.instagram.com/p/DgDggyolnJi/",
+    "publicado_em": "2026-11-22 16:01"
+  },
+  {
     "id": 1,
     "nome": "Jogo de Chave Catraca",
     "link": "https://s.shopee.com.br/5q9tgWIBtS",
