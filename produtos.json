@@ -1,5 +1,17 @@
 [
   {
+    "id": 3,
+    "nome": "Chinelo Bandeirinha",
+    "link": "https://s.shopee.com.br/5VX3HuSKOa",
+    "imagem": "https://raw.githubusercontent.com/caiomeioambientee-debug/bele-tech-midia/main/posts/p3-49/card-1.jpg",
+    "preco": "a partir de R$ 19,90",
+    "preco_min": 19.9,
+    "desconto": "até 20% de desconto",
+    "consultado_em": "23/11/2026",
+    "post": "https://www.instagram.com/p/DgGlRW_jDc0/",
+    "publicado_em": "2026-11-23 20:40"
+  },
+  {
     "id": 2,
     "nome": "Máquina de Cortar Cabelo",
     "link": "https://s.shopee.com.br/5q9tgWMafu",
